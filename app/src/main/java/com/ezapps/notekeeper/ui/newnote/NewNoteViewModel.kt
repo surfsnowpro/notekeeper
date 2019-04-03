@@ -11,7 +11,7 @@ class NewNoteViewModel: ViewModel() {
 
     fun getNewNote(): Note = noteRepo.createNote()
 
-    fun saveNote(note: Note): Long? {
-        return noteRepo.addNote(note)
+    fun saveNote(note: Note, callback: ((id: Long?) -> Unit)?) {
+        noteRepo.addNote(note, callback)
     }
 }

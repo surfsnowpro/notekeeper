@@ -1,9 +1,8 @@
 package com.ezapps.notekeeper.ui.newnote
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -13,10 +12,14 @@ import kotlinx.android.synthetic.main.fragment_new_note.*
 import kotlinx.android.synthetic.main.list_item_note.*
 
 class NewNoteFragment: Fragment() {
+    companion object {
+        const val TAG = "NewNoteFragment"
+    }
 
     private lateinit var viewModel: NewNoteViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_new_note, container, false)
     }
 
@@ -26,14 +29,35 @@ class NewNoteFragment: Fragment() {
 
         //TODO: Add note validation
         btnSaveNote.setOnClickListener {
-            viewModel.saveNote(buildNote())?.let { findNavController().navigate(R.id.action_global_noteListFragment) }
+            viewModel.saveNote(buildNote()) {
+                Log.d(TAG, "Saving note: $it")
+                it?.let { findNavController().navigate(R.id.action_global_noteListFragment) }
+            }
         }
     }
 
     private fun buildNote(): Note {
         val note = viewModel.getNewNote()
-        note.title = tvNoteTitle.text.toString()
-        note.text = tvNoteText.text.toString()
+        note.title = etNoteTitle.text.toString()
+        note.text = etNoteText.text.toString()
         return note
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.new_note_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_save -> {
+                //TODO: Add note validation
+                viewModel.saveNote(buildNote()) {
+                    Log.d(TAG, "Saving note: $it")
+                    it?.let { findNavController().navigate(R.id.action_global_noteListFragment) }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

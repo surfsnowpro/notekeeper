@@ -2,6 +2,8 @@ package com.ezapps.notekeeper.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import com.ezapps.notekeeper.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,4 +16,13 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(mainToolbar as Toolbar)
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.new_note_menu, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//
+//    }
 }

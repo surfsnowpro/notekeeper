@@ -6,5 +6,6 @@
     <string name="save">Save</string>
 
     <!-- Format strings -->
-    <string name="format_note_date">Modified: $1%s  /  Created: $2%s</string>
+    <string name="format_note_date">Modified: %s  /  Created: %s</string>
+    <string name="delete">Delete</string>
 </resources>

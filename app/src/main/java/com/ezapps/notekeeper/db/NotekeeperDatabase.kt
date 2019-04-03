@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ezapps.notekeeper.model.Note
 
-@Database(entities = arrayOf(Note::class), version = 1)
+@Database(entities = arrayOf(Note::class), version = 3)
 abstract class NotekeeperDatabase: RoomDatabase() {
 
     companion object {
@@ -14,11 +14,16 @@ abstract class NotekeeperDatabase: RoomDatabase() {
 
         fun getInstance(context: Context): NotekeeperDatabase {
             if (instance == null) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    NotekeeperDatabase::class.java,
-                    "Notekeeper").build()
+                synchronized(NotekeeperDatabase::class.java) {
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        NotekeeperDatabase::class.java,
+                        "Notekeeper")
+                        .fallbackToDestructiveMigration()
+                        .build()
+                }
             }
+
             return instance as NotekeeperDatabase
         }
     }

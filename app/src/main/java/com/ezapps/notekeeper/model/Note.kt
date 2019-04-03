@@ -1,5 +1,6 @@
 package com.ezapps.notekeeper.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.DateFormat
@@ -11,7 +12,10 @@ data class Note(
     var id: Long? = null,
     var title: String = "",
     var text: String = "",
+    @ColumnInfo(name = "date_created")
     var dateCreated: String = DateFormat.getDateInstance(DateFormat.LONG).format(Date()),
-    var dateModified: String? = null,
+    @ColumnInfo(name = "date_modified")
+    var dateModified: String = DateFormat.getDateInstance(DateFormat.LONG).format(Date()),
+    @ColumnInfo(name = "is_favorite")
     var isFavorite: Boolean = false
 )
