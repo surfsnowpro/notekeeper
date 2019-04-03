@@ -9,35 +9,22 @@ import androidx.navigation.fragment.findNavController
 import com.ezapps.notekeeper.R
 import com.ezapps.notekeeper.model.Note
 import kotlinx.android.synthetic.main.fragment_new_note.*
-import kotlinx.android.synthetic.main.list_item_note.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class NewNoteFragment: Fragment() {
     companion object {
         const val TAG = "NewNoteFragment"
     }
 
-    private lateinit var viewModel: NewNoteViewModel
+    private val newNoteViewModel: NewNoteViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_new_note, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(NewNoteViewModel::class.java)
-
-        //TODO: Add note validation
-        btnSaveNote.setOnClickListener {
-            viewModel.saveNote(buildNote()) {
-                Log.d(TAG, "Saving note: $it")
-                it?.let { findNavController().navigate(R.id.action_global_noteListFragment) }
-            }
-        }
-    }
-
     private fun buildNote(): Note {
-        val note = viewModel.getNewNote()
+        val note = newNoteViewModel.getNewNote()
         note.title = etNoteTitle.text.toString()
         note.text = etNoteText.text.toString()
         return note
@@ -52,7 +39,7 @@ class NewNoteFragment: Fragment() {
         when (item?.itemId) {
             R.id.menu_save -> {
                 //TODO: Add note validation
-                viewModel.saveNote(buildNote()) {
+                newNoteViewModel.saveNote(buildNote()) {
                     Log.d(TAG, "Saving note: $it")
                     it?.let { findNavController().navigate(R.id.action_global_noteListFragment) }
                 }

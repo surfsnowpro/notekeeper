@@ -16,13 +16,4 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(mainToolbar as Toolbar)
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.new_note_menu, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//
-//    }
 }
